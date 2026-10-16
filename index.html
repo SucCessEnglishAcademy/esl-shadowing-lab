@@ -341,42 +341,35 @@
       document.getElementById(id).src = videoUrl(videoId, start);
     }
 
-    function renderTranscript(containerId, stage, videoId) {
-      const container = document.getElementById(containerId);
-      const segments = stage.segments || stage.transcript || [];
 
-      container.innerHTML = "<h3>Transcript</h3>";
+function renderTranscript(containerId, stage, videoId) {
+  const container = document.getElementById(containerId);
+  const segments = stage.segments || stage.transcript || [];
 
-      if (typeof segments === "string" && segments.trim()) {
-        const paragraph = document.createElement("p");
-        paragraph.textContent = segments;
-        container.appendChild(paragraph);
-        return;
-      }
+  container.innerHTML = "<h3>Transcript</h3>";
 
-      if (!Array.isArray(segments) || segments.length === 0) {
-        container.innerHTML +=
-          '<p class="empty-message">Transcript will appear here when added to lessons.json.</p>';
-        return;
-      }
+  if (typeof segments === "string" && segments.trim()) {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = segments;
+    container.appendChild(paragraph);
+    return;
+  }
 
-      segments.forEach(segment => {
-        const line = document.createElement("div");
-        line.className = "transcript-line";
+  if (!Array.isArray(segments) || segments.length === 0) {
+    container.innerHTML +=
+      '<p class="empty-message">Transcript will appear here when added to lessons.json.</p>';
+    return;
+  }
 
-        const text = document.createElement("p");
-        text.textContent = segment.text || "";
+  segments.forEach(segment => {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = segment.text || "";
+    paragraph.style.padding = "12px 0";
+    paragraph.style.borderBottom = "1px solid #edf1f5";
+    container.appendChild(paragraph);
+  });
+}
 
-        const button = document.createElement("button");
-        button.textContent = `Play from ${formatTime(segment.start)}`;
-        button.addEventListener("click", () => {
-          setPlayerForTranscript(containerId, videoId, segment.start);
-        });
-
-        line.append(text, button);
-        container.appendChild(line);
-      });
-    }
 
     function setPlayerForTranscript(containerId, videoId, start) {
       const playerMap = {
@@ -392,8 +385,6 @@
       const start = Number(stage.start) || 0;
       const end = Number(stage.end) || 0;
 
-      document.getElementById(prefix + "Time").textContent =
-        `Clip: ${formatTime(start)} – ${formatTime(end)}`;
 
       document.getElementById(prefix + "Play").onclick = () => {
         setPlayer(playerId, videoId, start);

@@ -202,17 +202,19 @@
 
     <section class="stage">
       <div class="stage-number">Stage 1</div>
-      <h2>FULL VIDEO — Guess the Gist</h2>
+      <h2>How to Introduce Yourself — and Get Hired</h2>
       <p class="description">
         Watch the complete video first. Focus on the main idea.
         Do not read a transcript yet.
       </p>
       <div class="video-container">
-        <iframe id="gistPlayer"
-          title="Full video: Guess the Gist"
-          allow="autoplay; encrypted-media; picture-in-picture"
-          allowfullscreen></iframe>
-      </div>
+  <iframe
+    id="gistPlayer"
+    src="https://embed.ted.com/talks/rebecca_okamoto_how_to_introduce_yourself_and_get_hired"
+    title="How to Introduce Yourself — and Get Hired"
+    allowfullscreen>
+  </iframe>
+</div>
     </section>
 
     <section class="stage">
@@ -259,7 +261,7 @@
 
     <section class="stage">
       <div class="stage-number">Stage 4</div>
-      <h2>FULL VIDEO — Shadowing Practice</h2>
+      <h2>LET'S SHADOW IN FULL</h2>
       <p class="description">
         Watch the complete video again. Shadow the speaker by speaking
         along with the video. Use the transcript to support your practice.
@@ -338,8 +340,10 @@
     }
 
     function setPlayer(id, videoId, start) {
-      document.getElementById(id).src = videoUrl(videoId, start);
-    }
+  const player = document.getElementById(id);
+
+  player.src = "https://embed.ted.com/talks/rebecca_okamoto_how_to_introduce_yourself_and_get_hired";
+}
 
 
 function renderTranscript(containerId, stage, videoId) {

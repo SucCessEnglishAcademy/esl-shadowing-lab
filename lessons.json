@@ -1,0 +1,28 @@
+
+{
+  "lessons": [
+    {
+      "id": "demo",
+      "title": "Welcome to Shadowing Practice",
+      "description": "A sample lesson to demonstrate the transcript layout.",
+      "videoUrl": "https://www.youtube.com/watch?v=iG9CE55wbtY",
+      "segments": [
+        {
+          "start": 0,
+          "end": 8,
+          "text": "Welcome to your English shadowing practice. [S] Listen carefully to the speaker."
+        },
+        {
+          "start": 8,
+          "end": 17,
+          "text": "Pay attention to the rhythm of each sentence. [L] Then try saying the words aloud."
+        },
+        {
+          "start": 17,
+          "end": 26,
+          "text": "Practice at your own pace. [S] Repeat the words and focus on clear pronunciation."
+        }
+      ]
+    }
+  ]
+}

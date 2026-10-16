@@ -4,25 +4,72 @@
     {
       "id": "demo",
       "title": "Welcome to Shadowing Practice",
-      "description": "A sample lesson to demonstrate the transcript layout.",
+      "description": "Practice listening, understanding, and speaking through four stages of English shadowing.",
       "videoUrl": "https://www.youtube.com/watch?v=iG9CE55wbtY",
-      "segments": [
-        {
+      "stages": {
+        "gist": {
           "start": 0,
-          "end": 8,
-          "text": "Welcome to your English shadowing practice. [S] Listen carefully to the speaker."
+          "end": 60
         },
-        {
-          "start": 8,
+        "firstCut": {
+          "start": 0,
           "end": 17,
-          "text": "Pay attention to the rhythm of each sentence. [L] Then try saying the words aloud."
+          "segments": [
+            {
+              "start": 0,
+              "end": 8,
+              "text": "Welcome to your English shadowing practice. Listen carefully to the speaker."
+            },
+            {
+              "start": 8,
+              "end": 17,
+              "text": "Pay attention to the rhythm of each sentence. Then try saying the words aloud."
+            }
+          ]
         },
-        {
+        "secondCut": {
           "start": 17,
-          "end": 26,
-          "text": "Practice at your own pace. [S] Repeat the words and focus on clear pronunciation."
+          "end": 35,
+          "segments": [
+            {
+              "start": 17,
+              "end": 26,
+              "text": "Listen carefully to the speaker and notice how the words connect."
+            },
+            {
+              "start": 26,
+              "end": 35,
+              "text": "Repeat the sentences aloud and imitate the speaker's pronunciation."
+            }
+          ]
+        },
+        "full": {
+          "start": 0,
+          "end": 60,
+          "segments": [
+            {
+              "start": 0,
+              "end": 8,
+              "text": "Welcome to your English shadowing practice. Listen carefully to the speaker."
+            },
+            {
+              "start": 8,
+              "end": 17,
+              "text": "Pay attention to the rhythm of each sentence. Then try saying the words aloud."
+            },
+            {
+              "start": 17,
+              "end": 26,
+              "text": "Listen carefully to the speaker and notice how the words connect."
+            },
+            {
+              "start": 26,
+              "end": 35,
+              "text": "Repeat the sentences aloud and imitate the speaker's pronunciation."
+            }
+          ]
         }
-      ]
+      }
     }
   ]
 }

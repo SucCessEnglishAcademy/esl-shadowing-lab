@@ -2,724 +2,480 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESL Shadowing Lab</title>
-<style>
-:root {
-  --navy: #142d4e;
-  --blue: #2563eb;
-  --bg: #f4f7fb;
-  --text: #263449;
-  --muted: #64748b;
-  --border: #e2e8f0;
-}
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.7;
-}
-header {
-  background: var(--navy);
-  color: white;
-  padding: 25px 20px;
-}
-.header-inner, main, footer {
-  max-width: 1000px;
-  margin: auto;
-}
-header h1 { margin: 0; font-size: 28px; }
-header p { margin: 5px 0 0; color: #dbeafe; }
-main { padding: 24px 16px 40px; }
-.card {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 3px 12px #142d4e08;
-}
-h2 { color: var(--navy); margin-top: 0; }
-.video-frame {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: #0f172a;
-  border-radius: 10px;
-  overflow: hidden;
-}
-.video-frame iframe {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  inset: 0;
-  border: 0;
-}
-.controls {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 15px;
-  align-items: center;
-}
-button, select, input, textarea {
-  font: inherit;
-}
-button {
-  border: 0;
-  border-radius: 8px;
-  padding: 10px 15px;
-  cursor: pointer;
-  background: var(--blue);
-  color: white;
-}
-button:hover { filter: brightness(.94); }
-button.secondary {
-  background: #e8eef8;
-  color: var(--navy);
-}
-button:disabled { opacity: .5; cursor: not-allowed; }
-select, input, textarea {
-  width: 100%;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  padding: 10px;
-  background: white;
-  color: var(--text);
-}
-label { display: block; font-weight: bold; margin: 12px 0 5px; }
-.small { color: var(--muted); font-size: 13px; }
-.legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 12px 0 20px;
-}
-.tag {
-  display: inline-block;
-  border-radius: 5px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: bold;
-  white-space: nowrap;
-}
-.short { background: #dbeafe; color: #1d4ed8; }
-.long { background: #ffedd5; color: #9a3412; }
-.pause-guide { color: var(--muted); font-size: 13px; }
-.transcript {
-  white-space: pre-wrap;
-  line-height: 1.95;
-}
-.paragraph {
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 16px;
-  margin: 14px 0;
-  cursor: pointer;
-  transition: background .15s, border-color .15s;
-}
-.paragraph:hover {
-  border-color: #93b4f8;
-  background: #f8fbff;
-}
-.paragraph.active {
-  border: 2px solid var(--blue);
-  background: #eff6ff;
-}
-.paragraph p { margin: 8px 0; }
-.paragraph-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.time {
-  font-size: 12px;
-  color: var(--muted);
-  font-weight: bold;
-}
-.marker-short, .marker-long {
-  display: inline-block;
-  padding: 0 5px;
-  margin: 0 2px;
-  border-radius: 4px;
-  font-size: .8em;
-  font-weight: bold;
-}
-.marker-short { background: #dbeafe; color: #1d4ed8; }
-.marker-long { background: #ffedd5; color: #9a3412; }
-.admin { border-top: 4px solid var(--blue); }
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-.notice {
-  background: #f1f5f9;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 13px;
-}
-footer {
-  color: var(--muted);
-  text-align: center;
-  padding: 0 16px 30px;
-  font-size: 13px;
-}
-@media (max-width: 600px) {
-  header h1 { font-size: 23px; }
-  .card { padding: 15px; }
-  .grid { grid-template-columns: 1fr; }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESL Shadowing Lab</title>
+
+  <style>
+    :root {
+      --navy: #142d4e;
+      --blue: #2563eb;
+      --bg: #f4f7fb;
+      --text: #263449;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--navy);
+      color: white;
+      padding: 28px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: clamp(25px, 4vw, 36px);
+    }
+
+    header p { margin: 0; color: #dbeafe; }
+
+    main {
+      width: min(1000px, 94%);
+      margin: 28px auto;
+    }
+
+    .lesson-picker, .stage {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 14px rgba(20, 45, 78, 0.05);
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 16px;
+      background: white;
+    }
+
+    .stage-number {
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .stage h2 {
+      margin: 4px 0 8px;
+      color: var(--navy);
+      font-size: 24px;
+    }
+
+    .description {
+      color: var(--muted);
+      margin-top: 0;
+    }
+
+    .video-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #0f172a;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 18px 0;
+    }
+
+    .video-container iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .clip-controls {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 12px 0 18px;
+    }
+
+    .clip-controls button, .transcript-line button {
+      background: var(--blue);
+      color: white;
+      border: 0;
+      border-radius: 7px;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .clip-controls button:hover, .transcript-line button:hover {
+      background: #1d4ed8;
+    }
+
+    .time-label {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .transcript {
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+      margin-top: 14px;
+    }
+
+    .transcript h3 {
+      color: var(--navy);
+      margin-top: 0;
+    }
+
+    .transcript-line {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #edf1f5;
+    }
+
+    .transcript-line p {
+      flex: 1;
+      margin: 0;
+    }
+
+    .transcript-line button {
+      flex-shrink: 0;
+      padding: 7px 10px;
+    }
+
+    .empty-message {
+      background: #eff6ff;
+      padding: 14px;
+      border-radius: 8px;
+      color: #1e40af;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .stage, .lesson-picker { padding: 16px; }
+      .transcript-line { flex-direction: column; }
+      .transcript-line button { width: 100%; }
+    }
+  </style>
 </head>
+
 <body>
-
-<header>
-  <div class="header-inner">
+  <header>
     <h1>ESL Shadowing Lab</h1>
-    <p>Listen carefully. Speak naturally. Improve every day.</p>
-  </div>
-</header>
+    <p>Listen. Understand. Practice. Speak with Confidence.</p>
+  </header>
 
-<main>
-  <section class="card">
-    <h2 id="lessonTitle">Loading lesson...</h2>
-    <p id="lessonDescription" class="small">
-      Watch, listen, and practice speaking along with the speaker.
-    </p>
-    <div class="video-frame">
-      <div id="youtubePlayer"></div>
-    </div>
-    <div class="controls">
-      <button id="playPauseBtn" onclick="togglePlayback()">▶ Play</button>
-      <button class="secondary" onclick="replayCurrent()">↻ Replay paragraph</button>
-      <span class="small" id="playStatus" aria-live="polite">
-        Select a paragraph to begin.
-      </span>
-    </div>
-  </section>
+  <main>
+    <section class="lesson-picker">
+      <label for="lessonSelect">Choose a lesson</label>
+      <select id="lessonSelect">
+        <option>Loading lessons...</option>
+      </select>
+      <p id="lessonDescription" class="description"></p>
+    </section>
 
-  <section class="card">
-    <h2>Transcript & Pause Guide</h2>
-    <p class="small">
-      Click a paragraph to jump to its video section. Listen first, then
-      repeat the speaker's words aloud.
-    </p>
-    <div class="legend">
-      <span class="tag short">/ Short pause</span>
-      <span class="tag long">// Long pause</span>
-    </div>
-    <p class="pause-guide">
-      Short pause: a brief break. Long pause: a longer break between ideas.
-      These markers guide your speaking rhythm.
-    </p>
-    <div id="transcript">
-      <p>Loading transcript...</p>
-    </div>
-  </section>
-
-  <section class="card">
-    <h2>Choose a lesson</h2>
-    <label for="lessonSelect">Available lessons</label>
-    <select id="lessonSelect"></select>
-    <p class="small">Choose a lesson to load its video and transcript.</p>
-  </section>
-
-  <section class="card admin">
-    <h2>Lesson Editor</h2>
-    <p class="small">
-      Create a lesson by entering its YouTube link and transcript paragraphs.
-    </p>
-    <div class="notice">
-      <strong>Transcript format:</strong><br>
-      Put one paragraph on each line. Use
-      <code>[S]</code> for a short pause and <code>[L]</code> for a long pause.
-      Example: <code>Hello there. [S] Today we will practice English. [L]</code>
-      <br><br>
-      Enter times in seconds. Each paragraph must have a start and end time.
-    </div>
-
-    <form id="lessonForm">
-      <label for="newTitle">Lesson title</label>
-      <input id="newTitle" required placeholder="e.g. Speaking with Confidence">
-
-      <label for="newDescription">Short description</label>
-      <input id="newDescription" placeholder="What will students practice?">
-
-      <label for="newUrl">YouTube video URL</label>
-      <input id="newUrl" required placeholder="https://www.youtube.com/watch?v=...">
-
-      <label for="newTranscript">Transcript paragraphs with pause markers</label>
-      <textarea id="newTranscript" rows="5" required
-        placeholder="Hello, everyone. [S] Welcome to today's lesson. [L]&#10;Let us begin with a new idea. [S]"></textarea>
-
-      <label for="newTimes">Paragraph timestamps (start and end in seconds)</label>
-      <textarea id="newTimes" rows="4" required
-        placeholder="0|8&#10;8|17"></textarea>
-      <p class="small">
-        The first line of timestamps belongs to the first paragraph, the second
-        line to the second paragraph, and so on. Example: 0|8 means start at
-        0 seconds and pause at 8 seconds.
+    <section class="stage">
+      <div class="stage-number">Stage 1</div>
+      <h2>FULL VIDEO — Guess the Gist</h2>
+      <p class="description">
+        Watch the complete video first. Focus on the main idea.
+        Do not read a transcript yet.
       </p>
-
-      <div class="controls">
-        <button type="submit">Save lesson in this browser</button>
-        <button type="button" class="secondary" onclick="resetForm()">Clear form</button>
+      <div class="video-container">
+        <iframe id="gistPlayer"
+          title="Full video: Guess the Gist"
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowfullscreen></iframe>
       </div>
-    </form>
-    <p id="adminStatus" class="small" aria-live="polite"></p>
-    <div class="notice">
-      <strong>Important:</strong> Lessons saved here are stored in this browser
-      only. They do not automatically publish to GitHub or appear on students'
-      devices. To publish lesson changes, the lesson data must also be updated
-      in the website code on GitHub.
-    </div>
-  </section>
-</main>
+    </section>
 
-<footer>
-  ESL Shadowing Lab · Practice listening, pronunciation, and fluency.
-</footer>
+    <section class="stage">
+      <div class="stage-number">Stage 2</div>
+      <h2>FIRST CUT</h2>
+      <p class="description">
+        Listen to the first section. Read the transcript and imitate
+        the speaker's pronunciation and rhythm.
+      </p>
+      <div class="video-container">
+        <iframe id="firstPlayer"
+          title="First Cut video"
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <div class="clip-controls">
+        <button id="firstPlay">Play First Cut</button>
+        <button id="firstReplay">Replay First Cut</button>
+        <span id="firstTime" class="time-label"></span>
+      </div>
+      <div id="firstTranscript" class="transcript"></div>
+    </section>
 
-<script>
-const starterLessons = [
-  {
-    id: "demo",
-    title: "Welcome to Shadowing Practice",
-    description: "A sample lesson to demonstrate the transcript layout.",
-    videoUrl: "https://www.youtube.com/watch?v=iG9CE55wbtY",
-    segments: [
-      {
-        start: 0,
-        end: 8,
-        text: "Welcome to your English shadowing practice. [S] Listen carefully to the speaker."
-      },
-      {
-        start: 8,
-        end: 17,
-        text: "Pay attention to the rhythm of each sentence. [L] Then try saying the words aloud."
-      },
-      {
-        start: 17,
-        end: 26,
-        text: "Practice at your own pace. [S] Repeat the words and focus on clear pronunciation."
-      }
-    ]
-  }
-];
+    <section class="stage">
+      <div class="stage-number">Stage 3</div>
+      <h2>SECOND CUT</h2>
+      <p class="description">
+        Practice the next section. Listen carefully, then repeat
+        the sentences aloud.
+      </p>
+      <div class="video-container">
+        <iframe id="secondPlayer"
+          title="Second Cut video"
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <div class="clip-controls">
+        <button id="secondPlay">Play Second Cut</button>
+        <button id="secondReplay">Replay Second Cut</button>
+        <span id="secondTime" class="time-label"></span>
+      </div>
+      <div id="secondTranscript" class="transcript"></div>
+    </section>
 
-let lessons = [];
-let currentLesson = null;
-let currentSegmentIndex = -1;
-let player = null;
-let playerReady = false;
-let pauseTimer = null;
-let playerLoadRequested = false;
+    <section class="stage">
+      <div class="stage-number">Stage 4</div>
+      <h2>FULL VIDEO — Shadowing Practice</h2>
+      <p class="description">
+        Watch the complete video again. Shadow the speaker by speaking
+        along with the video. Use the transcript to support your practice.
+      </p>
+      <div class="video-container">
+        <iframe id="fullPlayer"
+          title="Full video: Shadowing Practice"
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <div class="clip-controls">
+        <button id="fullPlay">Play Full Video</button>
+        <button id="fullReplay">Replay Full Video</button>
+      </div>
+      <div id="fullTranscript" class="transcript"></div>
+    </section>
 
-async function readLessons() {
-  try {
-    const response = await fetch("./lessons.json");
-    if (!response.ok) {
-      throw new Error("Could not load lessons.json");
-    }
+    <p id="status" class="empty-message">Loading lesson content...</p>
+  </main>
 
-    const data = await response.json();
-    if (Array.isArray(data.lessons)) {
-      return data.lessons;
-    }
-  } catch (error) {
-    console.warn("Could not load shared lessons:", error);
-  }
+  <footer>
+    ESL Shadowing Lab · SucCess English Academy
+  </footer>
 
-  return starterLessons.map(lesson => ({ ...lesson }));
-}
+  <script>
+    let lessons = [];
+    let currentLesson = null;
 
-function getVideoId(url) {
-  try {
-    const parsed = new URL(url);
-    if (parsed.hostname.includes("youtu.be")) {
-      return parsed.pathname.slice(1).split("/")[0];
-    }
-    if (parsed.hostname.includes("youtube.com")) {
-      if (parsed.searchParams.get("v")) {
-        return parsed.searchParams.get("v");
-      }
-      const parts = parsed.pathname.split("/").filter(Boolean);
-      const index = parts.findIndex(part =>
-        ["embed", "shorts", "live"].includes(part)
-      );
-      if (index >= 0) return parts[index + 1] || null;
-    }
-  } catch (error) {
-    return null;
-  }
-  return null;
-}
-
-function setStatus(message) {
-  document.getElementById("playStatus").textContent = message;
-}
-
-function updatePlayButton() {
-  if (!playerReady || !player) return;
-  try {
-    const state = player.getPlayerState();
-    document.getElementById("playPauseBtn").textContent =
-      state === YT.PlayerState.PLAYING ? "Ⅱ Pause" : "▶ Play";
-  } catch (error) {}
-}
-
-function loadYouTubeApi() {
-  if (window.YT && window.YT.Player) {
-    createPlayer();
-    return;
-  }
-  if (document.getElementById("youtube-api-script")) return;
-
-  const script = document.createElement("script");
-  script.id = "youtube-api-script";
-  script.src = "https://www.youtube.com/iframe_api";
-  document.head.appendChild(script);
-}
-
-window.onYouTubeIframeAPIReady = function() {
-  createPlayer();
-};
-
-function createPlayer() {
-  if (player || !window.YT || !window.YT.Player) return;
-
-  player = new YT.Player("youtubePlayer", {
-    width: "100%",
-    height: "100%",
-    videoId: getVideoId(currentLesson.videoUrl) || "iG9CE55wbtY",
-    playerVars: {
-      playsinline: 1,
-      rel: 0
-    },
-    events: {
-      onReady: function() {
-        playerReady = true;
-        if (playerLoadRequested) {
-          playerLoadRequested = false;
-          loadCurrentVideo();
+    function parseYouTubeId(url) {
+      try {
+        const parsed = new URL(url);
+        if (parsed.hostname.includes("youtu.be")) {
+          return parsed.pathname.slice(1);
         }
-        updatePlayButton();
-      },
-      onStateChange: function() {
-        updatePlayButton();
-      },
-      onError: function(event) {
-        setStatus(
-          "The video could not be played. Check the YouTube URL or embedding permissions."
-        );
+        if (parsed.pathname.includes("/embed/")) {
+          return parsed.pathname.split("/embed/")[1].split("/")[0];
+        }
+        return parsed.searchParams.get("v");
+      } catch {
+        return null;
       }
     }
-  });
-}
 
-function loadCurrentVideo() {
-  if (!playerReady || !player) {
-    playerLoadRequested = true;
-    return;
-  }
-
-  const videoId = getVideoId(currentLesson.videoUrl);
-  if (!videoId) {
-    setStatus("This YouTube link does not appear to be valid.");
-    return;
-  }
-
-  clearInterval(pauseTimer);
-  currentSegmentIndex = -1;
-
-  player.loadVideoById({videoId: videoId, startSeconds: 0});
-  renderTranscript();
-  setStatus("Choose a paragraph to begin.");
-}
-
-function renderText(text) {
-  const fragment = document.createDocumentFragment();
-  const parts = text.split(/(\[S\]|\[L\])/g);
-
-  parts.forEach(part => {
-    if (part === "[S]") {
-      const marker = document.createElement("span");
-      marker.className = "marker-short";
-      marker.textContent = "/ SHORT PAUSE";
-      marker.title = "Take a brief pause";
-      fragment.appendChild(marker);
-    } else if (part === "[L]") {
-      const marker = document.createElement("span");
-      marker.className = "marker-long";
-      marker.textContent = "// LONG PAUSE";
-      marker.title = "Take a longer pause";
-      fragment.appendChild(marker);
-    } else {
-      fragment.appendChild(document.createTextNode(part));
+    function formatTime(seconds) {
+      const value = Math.max(0, Number(seconds) || 0);
+      const minutes = Math.floor(value / 60);
+      const secs = Math.floor(value % 60);
+      return `${minutes}:${String(secs).padStart(2, "0")}`;
     }
-  });
 
-  return fragment;
-}
+    function getStages(lesson) {
+      const stages = lesson.stages || {};
+      const segments = lesson.segments || [];
 
-function formatTime(seconds) {
-  const value = Math.max(0, Math.floor(Number(seconds) || 0));
-  const minutes = Math.floor(value / 60);
-  const remaining = value % 60;
-  return minutes + ":" + String(remaining).padStart(2, "0");
-}
+      const fullEnd = stages.full?.end ??
+        Math.max(0, ...segments.map(s => Number(s.end) || 0));
 
-function renderTranscript() {
-  const container = document.getElementById("transcript");
-  container.replaceChildren();
+      const split = Math.floor(fullEnd / 2);
 
-  currentLesson.segments.forEach((segment, index) => {
-    const article = document.createElement("article");
-    article.className = "paragraph";
-    article.tabIndex = 0;
-    article.setAttribute("role", "button");
-    article.setAttribute(
-      "aria-label",
-      "Play paragraph " + (index + 1) + ", " +
-      formatTime(segment.start) + " to " + formatTime(segment.end)
-    );
+      return {
+        gist: stages.gist || { start: 0, end: fullEnd },
+        firstCut: stages.firstCut || {
+          start: 0, end: split,
+          segments: segments.filter(s => Number(s.start) < split)
+        },
+        secondCut: stages.secondCut || {
+          start: split, end: fullEnd,
+          segments: segments.filter(s => Number(s.start) >= split)
+        },
+        full: stages.full || { start: 0, end: fullEnd, segments }
+      };
+    }
 
-    if (index === currentSegmentIndex) article.classList.add("active");
+    function videoUrl(videoId, start) {
+      return `https://www.youtube.com/embed/${videoId}?start=${Math.floor(start || 0)}&rel=0`;
+    }
 
-    const top = document.createElement("div");
-    top.className = "paragraph-top";
+    function setPlayer(id, videoId, start) {
+      document.getElementById(id).src = videoUrl(videoId, start);
+    }
 
-    const label = document.createElement("strong");
-    label.textContent = "Paragraph " + (index + 1);
+    function renderTranscript(containerId, stage, videoId) {
+      const container = document.getElementById(containerId);
+      const segments = stage.segments || stage.transcript || [];
 
-    const time = document.createElement("span");
-    time.className = "time";
-    time.textContent =
-      formatTime(segment.start) + " – " + formatTime(segment.end);
+      container.innerHTML = "<h3>Transcript</h3>";
 
-    top.append(label, time);
-
-    const paragraph = document.createElement("p");
-    paragraph.className = "transcript";
-    paragraph.appendChild(renderText(segment.text));
-
-    article.append(top, paragraph);
-    article.addEventListener("click", () => playSegment(index));
-    article.addEventListener("keydown", event => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        playSegment(index);
+      if (typeof segments === "string" && segments.trim()) {
+        const paragraph = document.createElement("p");
+        paragraph.textContent = segments;
+        container.appendChild(paragraph);
+        return;
       }
-    });
 
-    container.appendChild(article);
-  });
-}
-
-function playSegment(index) {
-  if (!playerReady || !player) {
-    setStatus("The video player is loading. Please try again shortly.");
-    return;
-  }
-
-  const segment = currentLesson.segments[index];
-  if (!segment) return;
-
-  if (!Number.isFinite(Number(segment.start)) ||
-      !Number.isFinite(Number(segment.end)) ||
-      Number(segment.start) < 0 ||
-      Number(segment.end) <= Number(segment.start)) {
-    setStatus("This paragraph has invalid timestamps.");
-    return;
-  }
-
-  clearInterval(pauseTimer);
-  currentSegmentIndex = index;
-  renderTranscript();
-
-  player.seekTo(Number(segment.start), true);
-  player.playVideo();
-
-  setStatus("Playing paragraph " + (index + 1) + ".");
-  updatePlayButton();
-
-  pauseTimer = setInterval(() => {
-    if (!playerReady || !player || currentSegmentIndex !== index) {
-      clearInterval(pauseTimer);
-      return;
-    }
-
-    try {
-      if (player.getCurrentTime() >= Number(segment.end)) {
-        player.pauseVideo();
-        clearInterval(pauseTimer);
-        setStatus("Paragraph " + (index + 1) + " finished. Repeat or continue.");
-        updatePlayButton();
+      if (!Array.isArray(segments) || segments.length === 0) {
+        container.innerHTML +=
+          '<p class="empty-message">Transcript will appear here when added to lessons.json.</p>';
+        return;
       }
-    } catch (error) {
-      clearInterval(pauseTimer);
+
+      segments.forEach(segment => {
+        const line = document.createElement("div");
+        line.className = "transcript-line";
+
+        const text = document.createElement("p");
+        text.textContent = segment.text || "";
+
+        const button = document.createElement("button");
+        button.textContent = `Play from ${formatTime(segment.start)}`;
+        button.addEventListener("click", () => {
+          setPlayerForTranscript(containerId, videoId, segment.start);
+        });
+
+        line.append(text, button);
+        container.appendChild(line);
+      });
     }
-  }, 150);
-}
 
-function togglePlayback() {
-  if (!playerReady || !player) {
-    setStatus("The video player is still loading.");
-    return;
-  }
+    function setPlayerForTranscript(containerId, videoId, start) {
+      const playerMap = {
+        firstTranscript: "firstPlayer",
+        secondTranscript: "secondPlayer",
+        fullTranscript: "fullPlayer"
+      };
+      const playerId = playerMap[containerId];
+      setPlayer(playerId, videoId, start);
+    }
 
-  try {
-    if (player.getPlayerState() === YT.PlayerState.PLAYING) {
-      player.pauseVideo();
-      clearInterval(pauseTimer);
-      setStatus("Video paused.");
-    } else {
-      if (currentSegmentIndex >= 0) {
-        playSegment(currentSegmentIndex);
-      } else {
-        player.playVideo();
-        setStatus("Video playing.");
+    function configureClip(prefix, playerId, stage, videoId) {
+      const start = Number(stage.start) || 0;
+      const end = Number(stage.end) || 0;
+
+      document.getElementById(prefix + "Time").textContent =
+        `Clip: ${formatTime(start)} – ${formatTime(end)}`;
+
+      document.getElementById(prefix + "Play").onclick = () => {
+        setPlayer(playerId, videoId, start);
+      };
+
+      document.getElementById(prefix + "Replay").onclick = () => {
+        setPlayer(playerId, videoId, start);
+      };
+    }
+
+    function loadLesson(index) {
+      currentLesson = lessons[index];
+      if (!currentLesson) return;
+
+      const videoId = parseYouTubeId(currentLesson.videoUrl);
+      const status = document.getElementById("status");
+
+      if (!videoId) {
+        status.textContent = "Please check the video's YouTube URL in lessons.json.";
+        return;
+      }
+
+      const stages = getStages(currentLesson);
+
+      document.getElementById("lessonDescription").textContent =
+        currentLesson.description || "";
+
+      setPlayer("gistPlayer", videoId, stages.gist.start);
+      setPlayer("firstPlayer", videoId, stages.firstCut.start);
+      setPlayer("secondPlayer", videoId, stages.secondCut.start);
+      setPlayer("fullPlayer", videoId, stages.full.start);
+
+      configureClip("first", "firstPlayer", stages.firstCut, videoId);
+      configureClip("second", "secondPlayer", stages.secondCut, videoId);
+
+      document.getElementById("fullPlay").onclick = () =>
+        setPlayer("fullPlayer", videoId, stages.full.start);
+
+      document.getElementById("fullReplay").onclick = () =>
+        setPlayer("fullPlayer", videoId, stages.full.start);
+
+      renderTranscript("firstTranscript", stages.firstCut, videoId);
+      renderTranscript("secondTranscript", stages.secondCut, videoId);
+      renderTranscript("fullTranscript", stages.full, videoId);
+
+      status.textContent = "Lesson loaded. Choose a stage and begin practicing.";
+    }
+
+    async function initializeLessons() {
+      const status = document.getElementById("status");
+
+      try {
+        const response = await fetch("./lessons.json");
+        if (!response.ok) throw new Error("Could not load lessons.json");
+
+        const data = await response.json();
+        lessons = Array.isArray(data) ? data : data.lessons;
+
+        if (!Array.isArray(lessons) || lessons.length === 0) {
+          throw new Error("No lessons were found in lessons.json.");
+        }
+
+        const select = document.getElementById("lessonSelect");
+        select.innerHTML = "";
+
+        lessons.forEach((lesson, index) => {
+          const option = document.createElement("option");
+          option.value = index;
+          option.textContent = lesson.title || `Lesson ${index + 1}`;
+          select.appendChild(option);
+        });
+
+        select.addEventListener("change", () => loadLesson(Number(select.value)));
+        loadLesson(0);
+      } catch (error) {
+        status.textContent =
+          "Unable to load lessons. Please check that lessons.json contains valid JSON and is committed to GitHub.";
+        console.error(error);
       }
     }
-    updatePlayButton();
-  } catch (error) {
-    setStatus("Please try again.");
-  }
-}
 
-function replayCurrent() {
-  if (currentSegmentIndex >= 0) {
-    playSegment(currentSegmentIndex);
-  } else {
-    setStatus("Select a transcript paragraph first.");
-  }
-}
-
-function loadLesson(index) {
-  const lesson = lessons[index];
-  if (!lesson) return;
-
-  currentLesson = lesson;
-  document.getElementById("lessonTitle").textContent = lesson.title;
-  document.getElementById("lessonDescription").textContent =
-    lesson.description || "Listen, practice, and improve your English.";
-
-  renderTranscript();
-
-  if (playerReady && player) {
-    loadCurrentVideo();
-  } else {
-    loadYouTubeApi();
-  }
-}
-
-function populateLessonSelect() {
-  const select = document.getElementById("lessonSelect");
-  select.replaceChildren();
-
-  lessons.forEach((lesson, index) => {
-    const option = document.createElement("option");
-    option.value = String(index);
-    option.textContent = lesson.title;
-    select.appendChild(option);
-  });
-
-  const selectedIndex = Math.max(0,
-    lessons.findIndex(lesson => lesson.id === currentLesson?.id));
-  select.value = String(selectedIndex);
-}
-
-document.getElementById("lessonSelect").addEventListener("change", event => {
-  loadLesson(Number(event.target.value));
-});
-
-document.getElementById("lessonForm").addEventListener("submit", event => {
-  event.preventDefault();
-
-  const title = document.getElementById("newTitle").value.trim();
-  const description = document.getElementById("newDescription").value.trim();
-  const videoUrl = document.getElementById("newUrl").value.trim();
-  const transcriptLines = document.getElementById("newTranscript").value
-    .split("\n").map(line => line.trim()).filter(Boolean);
-  const timeLines = document.getElementById("newTimes").value
-    .split("\n").map(line => line.trim()).filter(Boolean);
-
-  if (!getVideoId(videoUrl)) {
-    document.getElementById("adminStatus").textContent =
-      "Please enter a valid YouTube video link.";
-    return;
-  }
-
-  if (transcriptLines.length !== timeLines.length) {
-    document.getElementById("adminStatus").textContent =
-      "The number of transcript paragraphs must match the number of timestamp lines.";
-    return;
-  }
-
-  const segments = [];
-  for (let i = 0; i < transcriptLines.length; i++) {
-    const times = timeLines[i].split("|").map(value => Number(value.trim()));
-    if (times.length !== 2 ||
-        !Number.isFinite(times[0]) ||
-        !Number.isFinite(times[1]) ||
-        times[0] < 0 ||
-        times[1] <= times[0]) {
-      document.getElementById("adminStatus").textContent =
-        "Check timestamp line " + (i + 1) + ". Use start|end, for example 0|8.";
-      return;
-    }
-
-    segments.push({
-      start: times[0],
-      end: times[1],
-      text: transcriptLines[i]
-    });
-  }
-
-  const newLesson = {
-    id: "lesson-" + Date.now(),
-    title,
-    description,
-    videoUrl,
-    segments
-  };
-
-  lessons.push(newLesson);
-
-  try {
-    localStorage.setItem("eslShadowingLessons", JSON.stringify(lessons));
-    populateLessonSelect();
-    loadLesson(lessons.length - 1);
-    document.getElementById("adminStatus").textContent =
-      "Lesson saved in this browser and loaded above.";
-    document.getElementById("lessonForm").reset();
-  } catch (error) {
-    lessons.pop();
-    document.getElementById("adminStatus").textContent =
-      "The browser could not save the lesson. Check browser storage settings.";
-  }
-});
-
-function resetForm() {
-  document.getElementById("lessonForm").reset();
-  document.getElementById("adminStatus").textContent = "";
-}
-
-async function initializeLessons() {
-  lessons = await readLessons();
-  currentLesson = lessons[0];
-  populateLessonSelect();
-  loadLesson(0);
-}
-
-initializeLessons();
-</script>
-
+    initializeLessons();
+  </script>
 </body>
 </html>

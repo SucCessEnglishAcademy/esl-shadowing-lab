@@ -321,17 +321,22 @@ let playerReady = false;
 let pauseTimer = null;
 let playerLoadRequested = false;
 
-function readLessons() {
+async function readLessons() {
   try {
-    const saved = localStorage.getItem("eslShadowingLessons");
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      if (Array.isArray(parsed) && parsed.length) return parsed;
+    const response = await fetch("./lessons.json");
+    if (!response.ok) {
+      throw new Error("Could not load lessons.json");
+    }
+
+    const data = await response.json();
+    if (Array.isArray(data.lessons)) {
+      return data.lessons;
     }
   } catch (error) {
-    console.warn("Could not read saved lessons.", error);
+    console.warn("Could not load shared lessons:", error);
   }
-  return starterLessons.map(lesson => ({...lesson}));
+
+  return starterLessons.map(lesson => ({ ...lesson }));
 }
 
 function getVideoId(url) {
@@ -706,10 +711,14 @@ function resetForm() {
   document.getElementById("adminStatus").textContent = "";
 }
 
-lessons = readLessons();
-currentLesson = lessons[0];
-populateLessonSelect();
-loadLesson(0);
+async function initializeLessons() {
+  lessons = await readLessons();
+  currentLesson = lessons[0];
+  populateLessonSelect();
+  loadLesson(0);
+}
+
+initializeLessons();
 </script>
 
 </body>

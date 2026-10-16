@@ -342,7 +342,11 @@
     function setPlayer(id, videoId, start) {
   const player = document.getElementById(id);
 
-  player.src = "https://embed.ted.com/talks/rebecca_okamoto_how_to_introduce_yourself_and_get_hired";
+  if (id === "gistPlayer" || id === "fullPlayer") {
+    player.src = "https://www.youtube.com/embed/f_N3PGvnVKg?start=" + Math.floor(start || 0);
+  } else {
+    player.src = videoUrl(videoId, start);
+  }
 }
 
 
